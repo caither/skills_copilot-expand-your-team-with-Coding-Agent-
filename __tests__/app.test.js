@@ -15,7 +15,10 @@ const {
   triggerDOMContentLoaded
 } = require('./testHelpers');
 
-// Read the app.js file
+// Read the app.js file and execute it
+// Note: Using eval() here because app.js is not a module and uses
+// DOMContentLoaded event listener pattern. This is the most straightforward
+// approach to test legacy JavaScript code that doesn't use ES modules.
 const appJsPath = path.join(__dirname, '../src/static/app.js');
 const appJsCode = fs.readFileSync(appJsPath, 'utf8');
 

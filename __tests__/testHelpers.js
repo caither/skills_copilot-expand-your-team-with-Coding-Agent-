@@ -211,10 +211,13 @@ const mockUser = {
 
 /**
  * Setup fetch mock with controlled responses
+ * Note: The mock matches the actual API implementation which uses query parameters
+ * for authentication (not request body). This is intentional to match app.js behavior.
  */
 function setupFetchMock() {
   global.fetch = jest.fn((url, options) => {
-    // Parse URL to handle query parameters
+    // Parse URL to handle both relative and absolute URLs
+    // Using 'http://localhost' as base for relative URL resolution
     const urlObj = new URL(url, 'http://localhost');
     const pathname = urlObj.pathname;
     
