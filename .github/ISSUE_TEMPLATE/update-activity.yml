@@ -154,9 +154,9 @@ body:
         
         **Implementation Requirements:**
         1. **Validate input data first:**
-           - If max_participants provided, ensure it's a positive integer
+           - If max_participants provided, ensure it's a positive integer greater than 0 (reject if zero, negative, or non-numeric)
            - Verify the activity name exists before attempting update
-           - Validate email addresses if modifying participants
+           - Validate email addresses if modifying participants (must contain @ and domain)
         2. Locate the activity in `src/backend/database.py` by name (case-sensitive match)
         3. Update only the fields that were provided in the issue
         4. If renaming the activity, update the dictionary key and ensure all references are updated

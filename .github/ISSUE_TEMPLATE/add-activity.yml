@@ -132,9 +132,9 @@ body:
         
         **Implementation Requirements:**
         1. **Validate input data first:**
-           - Ensure max_participants is a positive integer (convert string to int)
+           - Ensure max_participants is a positive integer greater than 0 (reject if zero, negative, or non-numeric)
            - Verify activity name doesn't already exist
-           - Validate email addresses in initial participants list
+           - Validate email addresses in initial participants list (must contain @ and domain)
         2. Add the new activity to the `initial_activities` dictionary in `src/backend/database.py`
         3. Use the provided information to create a complete activity entry with:
            - Activity name as the key

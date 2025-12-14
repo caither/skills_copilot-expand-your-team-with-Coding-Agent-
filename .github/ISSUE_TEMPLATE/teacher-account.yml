@@ -110,8 +110,8 @@ body:
         
         **Security Considerations:**
         1. Passwords must be hashed using Argon2 (never store plaintext)
-        2. **Validate username format:** Must be lowercase, alphanumeric only (no spaces or special characters)
-        3. **Validate password strength:** For new accounts, ensure password is at least 8 characters with letters and numbers
+        2. **Validate username format:** Must be lowercase, alphanumeric only (no spaces or special characters) - reject if format is invalid
+        3. **Validate password strength:** For new accounts, ensure password is at least 8 characters with letters and numbers - reject if too weak
         4. Ensure secure password handling in implementation
         5. Document any security-related decisions
         
