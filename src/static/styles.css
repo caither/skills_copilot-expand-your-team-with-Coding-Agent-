@@ -82,6 +82,7 @@ body {
   padding: 12px;
   background-color: var(--background);
   font-size: 0.9rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header {
@@ -119,6 +120,7 @@ section {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 100%;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 section h3 {
@@ -141,6 +143,7 @@ section h3 {
   background-color: var(--surface);
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sidebar-filters h3 {
