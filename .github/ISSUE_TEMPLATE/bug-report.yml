@@ -1,0 +1,149 @@
+name: 🐛 Bug Report
+description: Report a problem or unexpected behavior in the application
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Report a Bug
+        
+        Thanks for taking the time to report a bug! Please provide as much detail as possible to help us understand and fix the issue.
+
+  - type: dropdown
+    id: bug-area
+    attributes:
+      label: What part of the application is affected?
+      description: Select the area where you encountered the bug
+      options:
+        - Activities display/listing
+        - Student enrollment/registration
+        - Teacher login/authentication
+        - Search functionality
+        - Filters (category, day, time)
+        - Schedule display
+        - User interface/layout
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly and concisely
+      placeholder: e.g., "When I try to enroll a student, I get an error message"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+      description: Describe what you expected to see instead
+      placeholder: e.g., "The student should be enrolled successfully"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Provide step-by-step instructions to reproduce the bug
+      placeholder: |
+        1. Go to the activities page
+        2. Click on 'Chess Club'
+        3. Enter student email 'john@mergington.edu'
+        4. Click 'Enroll Student'
+        5. See error message
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does this happen?
+      description: Does this happen every time or only sometimes?
+      options:
+        - Always (every time)
+        - Often (more than half the time)
+        - Sometimes (less than half the time)
+        - Rarely (only once or twice)
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error Messages (if any)
+      description: Copy and paste any error messages you see
+      placeholder: Paste exact error text here
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How severe is this issue?
+      description: How much does this bug impact your use of the application?
+      options:
+        - Critical - Cannot use the application at all
+        - High - Major functionality is broken
+        - Medium - Some functionality is broken but workarounds exist
+        - Low - Minor issue, doesn't significantly impact use
+    validations:
+      required: true
+
+  - type: input
+    id: affected-activity
+    attributes:
+      label: Specific Activity Affected (if applicable)
+      description: Does this bug only occur with a specific activity?
+      placeholder: e.g., "Chess Club", "Soccer Team"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other information, screenshots, or context about the bug
+      placeholder: e.g., "This started happening after we added the new activity", "Only happens on certain days"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Investigation Requirements:**
+        1. Analyze the bug description and steps to reproduce
+        2. Identify the root cause by examining relevant code files:
+           - For activity display issues: check `src/static/app.js` and `src/static/styles.css`
+           - For enrollment issues: check `src/backend/routers/activities.py`
+           - For authentication issues: check `src/backend/routers/auth.py`
+           - For data issues: check `src/backend/database.py`
+        3. Reproduce the bug if possible
+        4. Determine the minimal fix required
+        
+        **Implementation Requirements:**
+        1. Fix the bug with the smallest possible code change
+        2. Ensure the fix doesn't break existing functionality
+        3. Add appropriate error handling if missing
+        4. Test the fix thoroughly:
+           - Verify the bug no longer occurs
+           - Test related functionality to ensure no regressions
+           - Test edge cases
+        5. Document the fix in the code if the issue is subtle
+        
+        **Acceptance Criteria:**
+        - ✅ Bug is fixed and no longer reproducible
+        - ✅ No new bugs introduced
+        - ✅ Error handling is appropriate
+        - ✅ Application functions normally after the fix
+        - ✅ Code changes are minimal and focused

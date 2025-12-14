@@ -1,0 +1,165 @@
+name: 🎨 UI Improvement
+description: Request improvements to the user interface or user experience
+title: "[UI]: "
+labels: ["ui", "enhancement"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Request a UI Improvement
+        
+        Use this form to suggest improvements to the user interface or user experience.
+        
+        This can include layout changes, text updates, styling improvements, or new UI features.
+
+  - type: dropdown
+    id: ui-area
+    attributes:
+      label: Which part of the UI needs improvement?
+      description: Select the area you want to improve
+      options:
+        - Activity cards/listings
+        - Navigation/header
+        - Login page
+        - Search bar
+        - Filters section
+        - Buttons and controls
+        - Text and labels
+        - Colors and styling
+        - Layout/spacing
+        - Mobile responsiveness
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: improvement-type
+    attributes:
+      label: What type of improvement is this?
+      description: Select the category that best describes your request
+      options:
+        - Change text or labels
+        - Update colors or styling
+        - Improve layout or spacing
+        - Add new UI element
+        - Remove or hide element
+        - Make more user-friendly
+        - Improve accessibility
+        - Fix visual bug
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: Describe how it currently looks or works
+      placeholder: e.g., "The activity cards are too small and hard to read"
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired-state
+    attributes:
+      label: Desired Change
+      description: Describe what you want it to look like or how it should work
+      placeholder: e.g., "Make the activity cards larger with bigger text"
+    validations:
+      required: true
+
+  - type: textarea
+    id: specific-changes
+    attributes:
+      label: Specific Changes Requested
+      description: Be as specific as possible about what should change
+      placeholder: |
+        e.g., 
+        - Change "Sign Up" button to "Enroll Student"
+        - Make the activity title text larger
+        - Add more space between cards
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: How important is this change?
+      description: Help us prioritize this improvement
+      options:
+        - High - Significantly impacts usability
+        - Medium - Would notably improve experience
+        - Low - Nice to have but not urgent
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-needed
+    attributes:
+      label: Why is this improvement needed?
+      description: Explain the benefit or problem this solves
+      placeholder: e.g., "Teachers find the current layout confusing", "Students have difficulty reading the small text"
+    validations:
+      required: true
+
+  - type: input
+    id: affects-users
+    attributes:
+      label: Who does this affect?
+      description: Which users will benefit from this change?
+      placeholder: e.g., "All teachers", "Students", "Both teachers and students"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details, mockups, or examples?
+      placeholder: Links to similar designs, screenshots, or additional context
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Analysis Requirements:**
+        1. Review the UI improvement request carefully
+        2. Identify which files need to be modified:
+           - HTML structure: `src/static/index.html`
+           - Styling: `src/static/styles.css`
+           - Interactivity: `src/static/app.js`
+        3. Understand the current implementation
+        4. Plan minimal changes that achieve the desired outcome
+        
+        **Implementation Requirements:**
+        1. Make focused changes to implement the UI improvement
+        2. For text changes: Update in HTML or JavaScript where text is generated
+        3. For styling changes: Update CSS with appropriate selectors
+        4. For layout changes: Modify CSS grid, flexbox, or spacing properties
+        5. For new UI elements: Add HTML structure, styling, and any needed JavaScript
+        6. Maintain consistency with existing design patterns
+        7. Ensure changes work across different screen sizes if applicable
+        8. Test the changes visually to ensure they look correct
+        
+        **Testing Requirements:**
+        1. Verify the UI change appears as requested
+        2. Test on different screen sizes (if applicable)
+        3. Ensure no existing functionality is broken
+        4. Check that new elements are properly styled
+        5. Verify text is readable and accessible
+        6. Take a screenshot to show the improvement
+        
+        **Acceptance Criteria:**
+        - ✅ UI improvement is implemented as requested
+        - ✅ Changes are visually correct and polished
+        - ✅ No existing functionality is broken
+        - ✅ Design is consistent with the rest of the application
+        - ✅ Changes work on different screen sizes (if applicable)
+        - ✅ Code changes are clean and maintainable

@@ -1,0 +1,198 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for the application
+title: "[Feature]: "
+labels: ["enhancement", "feature-request"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Request a New Feature
+        
+        Use this form to suggest new functionality for the Mergington High School Activities application.
+        
+        Please provide clear details about what you want and why it would be valuable.
+
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: What area would this feature improve?
+      description: Select the primary area this feature relates to
+      options:
+        - Activity management
+        - Student enrollment
+        - Teacher functionality
+        - Search and filtering
+        - Reporting and analytics
+        - Notifications
+        - User experience
+        - Data management
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: Clearly describe the feature you'd like to see
+      placeholder: e.g., "Add ability to export activity rosters to CSV files"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-solved
+    attributes:
+      label: Problem This Solves
+      description: What problem or need does this feature address?
+      placeholder: e.g., "Teachers currently have to manually copy student lists for record keeping"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: How do you envision this feature working?
+      placeholder: |
+        e.g., "Add an 'Export' button on each activity card that downloads a CSV file with:
+        - Activity name
+        - All enrolled student emails
+        - Enrollment dates"
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Describe how a user would interact with this feature
+      placeholder: |
+        As a [teacher/student/admin],
+        I want to [do something],
+        So that [benefit/outcome]
+        
+        e.g., "As a teacher, I want to export student rosters, so that I can maintain attendance records in my gradebook"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-type
+    attributes:
+      label: Who would use this feature?
+      description: Select all that apply
+      multiple: true
+      options:
+        - Teachers
+        - Students
+        - Administrators
+        - All users
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: How important is this feature?
+      description: Help us understand the priority
+      options:
+        - High - Critical for daily operations
+        - Medium - Would significantly improve workflow
+        - Low - Nice to have but not urgent
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: Describe any workarounds you currently use or other ways this could be implemented
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How would you know this feature is complete and working correctly?
+      placeholder: |
+        e.g.,
+        - Export button appears on each activity card
+        - Clicking export downloads a CSV file
+        - CSV contains all enrolled students
+        - File is named appropriately (e.g., "Chess-Club-Roster.csv")
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-suggestions
+    attributes:
+      label: Technical Suggestions (Optional)
+      description: Any technical implementation ideas or constraints to consider?
+      placeholder: e.g., "Could use the Papa Parse library for CSV generation"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information, screenshots, or examples?
+      placeholder: Links to similar features in other applications, mockups, related issues, etc.
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Analysis Requirements:**
+        1. Thoroughly understand the feature request and user needs
+        2. Evaluate the scope and complexity of the implementation
+        3. Identify all files that need to be created or modified
+        4. Consider impact on existing functionality
+        5. Plan for both backend and frontend changes if needed
+        
+        **Design Requirements:**
+        1. Design the feature to integrate seamlessly with existing code
+        2. Follow existing code patterns and conventions
+        3. Plan database schema changes if needed
+        4. Design API endpoints if backend changes required
+        5. Plan UI components if frontend changes required
+        6. Consider error handling and edge cases
+        
+        **Implementation Requirements:**
+        1. Implement the feature following the proposed solution and user story
+        2. Backend changes:
+           - Add new endpoints to appropriate router files
+           - Update database models or queries if needed
+           - Add proper validation and error handling
+        3. Frontend changes:
+           - Add new UI components or modify existing ones
+           - Update JavaScript for new functionality
+           - Add appropriate styling
+        4. Maintain code quality and consistency
+        5. Add inline comments for complex logic
+        6. Ensure backward compatibility
+        
+        **Testing Requirements:**
+        1. Test all new functionality thoroughly
+        2. Verify acceptance criteria are met
+        3. Test edge cases and error conditions
+        4. Ensure existing functionality isn't broken
+        5. Test user workflow end-to-end
+        6. Take screenshots of new UI features
+        
+        **Acceptance Criteria:**
+        - ✅ Feature works as described in the request
+        - ✅ User story requirements are satisfied
+        - ✅ Acceptance criteria (if provided) are met
+        - ✅ Code follows existing patterns and conventions
+        - ✅ No existing functionality is broken
+        - ✅ Error handling is appropriate
+        - ✅ Feature is well-integrated with the rest of the application

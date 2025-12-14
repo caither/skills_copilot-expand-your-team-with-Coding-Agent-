@@ -1,0 +1,103 @@
+name: 🗑️ Remove Activity
+description: Request to remove an activity from the system
+title: "[Remove Activity]: "
+labels: ["activity", "removal"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Remove an Activity
+        
+        Use this form to request the removal of an activity from the system.
+        
+        ⚠️ **Warning:** This action will remove the activity and all associated participant data.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: Which activity should be removed? (Must match exactly)
+      placeholder: e.g., "Chess Club", "Soccer Team"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Removal
+      description: Why does this activity need to be removed?
+      placeholder: e.g., "Activity cancelled due to low enrollment", "Teacher no longer available", "Activity moved to different program"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      description: Please confirm you understand the implications
+      options:
+        - label: I understand this will permanently remove the activity from the system
+          required: true
+        - label: I have notified all enrolled students about this removal
+          required: true
+
+  - type: textarea
+    id: affected-students
+    attributes:
+      label: Affected Students
+      description: List any students currently enrolled who will be affected (for notification purposes)
+      placeholder: |
+        john@mergington.edu
+        jane@mergington.edu
+    validations:
+      required: false
+
+  - type: dropdown
+    id: alternative-activity
+    attributes:
+      label: Is there an alternative activity?
+      description: Should students be directed to a similar activity?
+      options:
+        - "No alternative"
+        - "Yes - specify in additional information below"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details about this removal? (e.g., alternative activities, timeline)
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Implementation Requirements:**
+        1. Locate the activity in `src/backend/database.py` by exact name match
+        2. Remove the activity entry from the `initial_activities` dictionary
+        3. Verify no other code references this specific activity by name
+        4. Document affected students in a comment if any are enrolled
+        5. Test the application to ensure:
+           - The activity no longer appears in the activities list
+           - No broken references or errors occur
+           - Filtering and search functionality still works correctly
+        
+        **Safety Checks:**
+        - Verify the activity name exists before attempting removal
+        - Check for any hardcoded references to this activity
+        - Ensure database integrity after removal
+        
+        **Acceptance Criteria:**
+        - ✅ Activity is completely removed from initial_activities
+        - ✅ Activity no longer appears in the UI
+        - ✅ No errors occur when browsing activities
+        - ✅ Filters and search work correctly without the removed activity
+        - ✅ Application functions normally after removal

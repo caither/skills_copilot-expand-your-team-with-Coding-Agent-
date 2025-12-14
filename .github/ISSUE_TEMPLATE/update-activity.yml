@@ -1,0 +1,183 @@
+name: ✏️ Update Existing Activity
+description: Request changes to an existing activity's details
+title: "[Update Activity]: "
+labels: ["activity", "update"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Update an Existing Activity
+        
+        Use this form to request changes to an existing activity in the system.
+        
+        Only fill in the fields you want to change. Leave other fields empty to keep the current values.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: Which activity do you want to update? (Must match exactly)
+      placeholder: e.g., "Chess Club", "Soccer Team"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: What do you want to update?
+      description: Select the type of change you need
+      multiple: true
+      options:
+        - Description
+        - Schedule (days/times)
+        - Maximum participants
+        - Difficulty level
+        - Current participants
+        - Activity name
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: new-name
+    attributes:
+      label: New Activity Name (if changing name)
+      description: If renaming the activity, what should the new name be?
+      placeholder: e.g., "Advanced Chess Club"
+    validations:
+      required: false
+
+  - type: textarea
+    id: new-description
+    attributes:
+      label: New Description (if changing description)
+      description: Provide the updated description for the activity
+      placeholder: e.g., "Learn advanced chess strategies and compete in regional tournaments"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: new-days
+    attributes:
+      label: New Days of Week (if changing schedule)
+      description: Select all days when this activity should meet
+      options:
+        - label: Monday
+        - label: Tuesday
+        - label: Wednesday
+        - label: Thursday
+        - label: Friday
+        - label: Saturday
+        - label: Sunday
+    validations:
+      required: false
+
+  - type: input
+    id: new-start-time
+    attributes:
+      label: New Start Time (if changing schedule)
+      description: What time should the activity start? (Use 12-hour format)
+      placeholder: e.g., "3:30 PM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-end-time
+    attributes:
+      label: New End Time (if changing schedule)
+      description: What time should the activity end? (Use 12-hour format)
+      placeholder: e.g., "5:00 PM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-max-participants
+    attributes:
+      label: New Maximum Participants (if changing capacity)
+      description: What should the new maximum number of participants be? (Must be a positive number)
+      placeholder: e.g., "25"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: new-difficulty
+    attributes:
+      label: New Difficulty Level (if changing difficulty)
+      description: Update the difficulty level
+      options:
+        - Not Applicable / Remove difficulty
+        - Beginner
+        - Intermediate
+        - Advanced
+    validations:
+      required: false
+
+  - type: textarea
+    id: participant-changes
+    attributes:
+      label: Participant Changes (if modifying enrollment)
+      description: |
+        Specify changes to enrolled students:
+        - Type "ADD:" before emails to add
+        - Type "REMOVE:" before emails to remove
+      placeholder: |
+        ADD: newstudent@mergington.edu
+        REMOVE: leavingstudent@mergington.edu
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Change
+      description: Why is this update needed?
+      placeholder: e.g., "Room capacity changed", "Schedule conflict with another activity", "More students interested than expected"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details about this update?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Implementation Requirements:**
+        1. **Validate input data first:**
+           - If max_participants provided, ensure it's a positive integer greater than 0 (reject if zero, negative, or non-numeric)
+           - Verify the activity name exists before attempting update
+           - Validate email addresses if modifying participants (must contain @ and domain)
+        2. Locate the activity in `src/backend/database.py` by name (case-sensitive match)
+        3. Update only the fields that were provided in the issue
+        4. If renaming the activity, update the dictionary key and ensure all references are updated
+        5. If updating schedule:
+           - Update both the schedule string (human-readable) and schedule_details object
+           - Convert 12-hour time to 24-hour format for schedule_details
+           - Ensure day names in schedule_details match exactly: ["Monday", "Tuesday", etc.]
+        6. If updating participants:
+           - Process ADD operations to append new emails
+           - Process REMOVE operations to remove specified emails
+           - Maintain the participants array structure
+        7. If updating difficulty:
+           - Add the difficulty field if it doesn't exist and a difficulty is specified
+           - Remove the difficulty field if "Not Applicable / Remove difficulty" is selected
+        8. Validate changes don't break existing functionality
+        9. Test the updated activity displays correctly in the UI
+        
+        **Acceptance Criteria:**
+        - ✅ Only specified fields are updated
+        - ✅ Other fields remain unchanged
+        - ✅ Activity displays correctly with updated information
+        - ✅ Schedule changes work with day/time filters
+        - ✅ Participant changes are reflected accurately
+        - ✅ No data corruption or errors introduced
