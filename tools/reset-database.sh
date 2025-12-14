@@ -4,6 +4,11 @@ set -e  # Exit immediately if any command fails
 # Reset database script - Clears all data from MongoDB collections
 # This allows init_database() to repopulate the database with initial data
 
+# Configuration
+MONGODB_HOST="mongodb://localhost:27017/"
+DATABASE_NAME="mergington_high"
+CONNECTION_TIMEOUT=5000  # milliseconds
+
 echo "=========================================="
 echo "Resetting Mergington High School Database"
 echo "=========================================="
@@ -15,7 +20,7 @@ if ! pgrep -x mongod > /dev/null; then
     echo "   Checking if MongoDB is accessible on port 27017..."
     
     # Try to connect to verify MongoDB is accessible
-    if ! timeout 5 python3 -c "from pymongo import MongoClient; MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=2000).server_info()" 2>/dev/null; then
+    if ! timeout 5 python3 -c "from pymongo import MongoClient; MongoClient('${MONGODB_HOST}', serverSelectionTimeoutMS=${CONNECTION_TIMEOUT}).server_info()" 2>/dev/null; then
         echo "❌ Error: Cannot connect to MongoDB on localhost:27017"
         echo "   Please start MongoDB first with: .devcontainer/startMongoDB.sh"
         exit 1
@@ -23,23 +28,23 @@ if ! pgrep -x mongod > /dev/null; then
     echo "✅ MongoDB is accessible on port 27017"
 fi
 
-echo "📋 Dropping collections from 'mergington_high' database..."
+echo "📋 Dropping collections from '${DATABASE_NAME}' database..."
 echo ""
 
 # Use Python to interact with MongoDB (using pymongo like the application does)
-python3 << 'EOF'
+python3 << EOF
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError, ConnectionFailure
 import sys
 
 try:
     # Connect to MongoDB with timeout
-    client = MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=5000)
+    client = MongoClient('${MONGODB_HOST}', serverSelectionTimeoutMS=${CONNECTION_TIMEOUT})
     
     # Test the connection
     client.server_info()
     
-    db = client['mergington_high']
+    db = client['${DATABASE_NAME}']
     
     # Get counts before dropping
     activities_count = db.activities.count_documents({})
