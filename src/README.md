@@ -34,6 +34,37 @@ A comprehensive web application that enables teachers to manage and students to 
 - **Database**: MongoDB for persistent data storage
 - **Frontend**: Vanilla JavaScript with responsive CSS
 - **API**: RESTful API with automatic documentation
+- **Testing**: Jest with JSDOM for JavaScript unit and integration tests
+
+## Testing
+
+This project includes comprehensive testing for the JavaScript frontend using Jest and JSDOM.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode (re-runs on file changes)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Test Coverage
+
+The test suite covers:
+- **Initial Load Behavior**: Skeleton loading and activity card display
+- **Category and Search Filtering**: Client-side filtering functionality
+- **Authentication Flow**: Login process and UI updates
+- **Registration Features**: Student enrollment when authenticated
+- **Access Control**: Restrictions for unauthenticated users
+- **Weekend Filtering**: Frontend-only time filtering logic
+- **Test Cleanup**: Proper test isolation and cleanup
+
+All tests are located in the `__tests__/` directory.
 
 ## Development Guide
 
