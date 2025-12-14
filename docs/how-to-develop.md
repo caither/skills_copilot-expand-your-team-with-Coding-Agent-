@@ -64,5 +64,21 @@ These dependencies will be installed when you run `pip install -r src/requiremen
 | GET    | `/activities`                                                     | Get all activities with their details and current participant count |
 | POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity                                             |
 
-> [!IMPORTANT]
-> All data is stored in memory, which means data will be reset when the server restarts.
+## Database Management
+
+The application uses MongoDB to store activities and teacher accounts. The database is automatically initialized with sample data on first run.
+
+### Resetting the Database
+
+If you need to reset the database to its initial state (clearing all data and allowing `init_database()` to repopulate):
+
+```bash
+./tools/reset-database.sh
+```
+
+This script will:
+1. Drop all collections from the `mergington_high` database
+2. Display the count of documents that were removed
+3. Verify the collections are now empty
+
+After running the reset script, restart the application to trigger `init_database()` and repopulate the database with initial data.
