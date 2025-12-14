@@ -471,12 +471,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Apply difficulty filter on client side when "All Levels" is selected
-      // "All Levels" (empty string) should only show activities with no difficulty specified
-      if (currentDifficulty === "" && details.difficulty) {
-        return;
-      }
-
       // Apply search filter
       const searchableContent = [
         name.toLowerCase(),
@@ -949,7 +943,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializeDarkMode() {
     // Check for saved dark mode preference, default to light mode
     const darkModeEnabled = localStorage.getItem("darkMode") === "true";
-    
+
     if (darkModeEnabled) {
       document.body.classList.add("dark-mode");
       darkModeToggle.textContent = "☀️";
@@ -959,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function toggleDarkMode() {
     const isDarkMode = document.body.classList.toggle("dark-mode");
-    
+
     // Update button icon and title
     if (isDarkMode) {
       darkModeToggle.textContent = "☀️";
@@ -979,7 +973,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const baseUrl = window.location.origin + window.location.pathname;
     const shareUrl = `${baseUrl}#${encodeURIComponent(activityName)}`;
     const formattedSchedule = formatSchedule(activityDetails);
-    
+
     return {
       title: `${activityName} - Mergington High School`,
       text: `Join ${activityName}! ${activityDetails.description} Schedule: ${formattedSchedule}`,
@@ -992,7 +986,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!activityDetails) return;
 
     const shareData = getShareData(activityName, activityDetails);
-    
+
     switch(platform) {
       case 'facebook':
         window.open(
@@ -1001,7 +995,7 @@ document.addEventListener("DOMContentLoaded", () => {
           'width=600,height=400'
         );
         break;
-        
+
       case 'twitter':
         window.open(
           `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
@@ -1009,20 +1003,20 @@ document.addEventListener("DOMContentLoaded", () => {
           'width=600,height=400'
         );
         break;
-        
+
       case 'whatsapp':
         window.open(
           `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`,
           '_blank'
         );
         break;
-        
+
       case 'email':
         const emailSubject = encodeURIComponent(shareData.title);
         const emailBody = encodeURIComponent(`${shareData.text}\n\nLearn more: ${shareData.url}`);
         window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
         break;
-        
+
       case 'copy':
         copyToClipboard(shareData.url, buttonElement);
         break;
@@ -1033,13 +1027,13 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await navigator.clipboard.writeText(text);
       showMessage('Link copied to clipboard!', 'success');
-      
+
       // Visual feedback on the button
       if (buttonElement) {
         const originalIcon = buttonElement.querySelector('.share-icon').textContent;
         buttonElement.classList.add('copied');
         buttonElement.querySelector('.share-icon').textContent = '✓';
-        
+
         setTimeout(() => {
           buttonElement.classList.remove('copied');
           buttonElement.querySelector('.share-icon').textContent = originalIcon;
