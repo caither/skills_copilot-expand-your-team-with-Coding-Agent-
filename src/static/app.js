@@ -569,6 +569,24 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons" data-activity="${name}">
+        <span class="share-label">Share:</span>
+        <button class="share-btn" data-platform="facebook" aria-label="Share on Facebook" title="Share on Facebook">
+          <span class="share-icon">📘</span>
+        </button>
+        <button class="share-btn" data-platform="twitter" aria-label="Share on Twitter" title="Share on Twitter">
+          <span class="share-icon">🐦</span>
+        </button>
+        <button class="share-btn" data-platform="whatsapp" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+          <span class="share-icon">💬</span>
+        </button>
+        <button class="share-btn" data-platform="email" aria-label="Share via Email" title="Share via Email">
+          <span class="share-icon">✉️</span>
+        </button>
+        <button class="share-btn" data-platform="copy" aria-label="Copy link" title="Copy link">
+          <span class="share-icon">🔗</span>
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +604,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-btn");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const platform = button.dataset.platform;
+        shareActivity(name, platform, button);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -854,6 +881,83 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error signing up:", error);
     }
   });
+
+  // Share functionality
+  function getShareData(activityName, activityDetails) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = `${baseUrl}#${encodeURIComponent(activityName)}`;
+    const formattedSchedule = formatSchedule(activityDetails);
+    
+    return {
+      title: `${activityName} - Mergington High School`,
+      text: `Join ${activityName}! ${activityDetails.description} Schedule: ${formattedSchedule}`,
+      url: shareUrl
+    };
+  }
+
+  function shareActivity(activityName, platform, buttonElement) {
+    const activityDetails = allActivities[activityName];
+    if (!activityDetails) return;
+
+    const shareData = getShareData(activityName, activityDetails);
+    
+    switch(platform) {
+      case 'facebook':
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
+          '_blank',
+          'width=600,height=400'
+        );
+        break;
+        
+      case 'twitter':
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
+          '_blank',
+          'width=600,height=400'
+        );
+        break;
+        
+      case 'whatsapp':
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`,
+          '_blank'
+        );
+        break;
+        
+      case 'email':
+        const emailSubject = encodeURIComponent(shareData.title);
+        const emailBody = encodeURIComponent(`${shareData.text}\n\nLearn more: ${shareData.url}`);
+        window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+        break;
+        
+      case 'copy':
+        copyToClipboard(shareData.url, buttonElement);
+        break;
+    }
+  }
+
+  async function copyToClipboard(text, buttonElement) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showMessage('Link copied to clipboard!', 'success');
+      
+      // Visual feedback on the button
+      if (buttonElement) {
+        const originalIcon = buttonElement.querySelector('.share-icon').textContent;
+        buttonElement.classList.add('copied');
+        buttonElement.querySelector('.share-icon').textContent = '✓';
+        
+        setTimeout(() => {
+          buttonElement.classList.remove('copied');
+          buttonElement.querySelector('.share-icon').textContent = originalIcon;
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Failed to copy:', error);
+      showMessage('Failed to copy link. Please try again.', 'error');
+    }
+  }
 
   // Expose filter functions to window for future UI control
   window.activityFilters = {
