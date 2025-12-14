@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryFilters = document.querySelectorAll(".category-filter");
   const dayFilters = document.querySelectorAll(".day-filter");
   const timeFilters = document.querySelectorAll(".time-filter");
+  const difficultyFilters = document.querySelectorAll(".difficulty-filter");
 
   // Authentication elements
   const loginButton = document.getElementById("login-button");
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
+  let currentDifficulty = "";
 
   // Authentication state
   let currentUser = null;
@@ -66,6 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const activeTimeFilter = document.querySelector(".time-filter.active");
     if (activeTimeFilter) {
       currentTimeRange = activeTimeFilter.dataset.time;
+    }
+
+    // Initialize difficulty filter
+    const activeDifficultyFilter = document.querySelector(".difficulty-filter.active");
+    if (activeDifficultyFilter) {
+      currentDifficulty = activeDifficultyFilter.dataset.difficulty;
     }
   }
 
@@ -92,6 +100,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update active class
     timeFilters.forEach((btn) => {
       if (btn.dataset.time === timeRange) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    fetchActivities();
+  }
+
+  // Function to set difficulty filter
+  function setDifficultyFilter(difficulty) {
+    currentDifficulty = difficulty;
+
+    // Update active class
+    difficultyFilters.forEach((btn) => {
+      if (btn.dataset.difficulty === difficulty) {
         btn.classList.add("active");
       } else {
         btn.classList.remove("active");
@@ -366,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "academic";
   }
 
-  // Function to fetch activities from API with optional day and time filters
+  // Function to fetch activities from API with optional day, time, and difficulty filters
   async function fetchActivities() {
     // Show loading skeletons first
     showLoadingSkeletons();
@@ -395,6 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
+      // Handle difficulty filter
+      // Note: When currentDifficulty is empty (All Levels), we fetch all activities
+      // and filter on client side to show only those without difficulty specified
+      if (currentDifficulty) {
+        queryParams.push(`difficulty=${encodeURIComponent(currentDifficulty)}`);
+      }
+
       const queryString =
         queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
       const response = await fetch(`/activities${queryString}`);
@@ -417,7 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the activities list
     activitiesList.innerHTML = "";
 
-    // Apply client-side filtering - this handles category filter and search, plus weekend filter
+    // Apply client-side filtering - this handles category filter, search, weekend filter, and "All Levels" difficulty filter
     let filteredActivities = {};
 
     Object.entries(allActivities).forEach(([name, details]) => {
@@ -438,6 +469,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isWeekendActivity) {
           return;
         }
+      }
+
+      // Apply difficulty filter on client side when "All Levels" is selected
+      // "All Levels" (empty string) should only show activities with no difficulty specified
+      if (currentDifficulty === "" && details.difficulty) {
+        return;
       }
 
       // Apply search filter
@@ -509,6 +546,13 @@ document.addEventListener("DOMContentLoaded", () => {
       </span>
     `;
 
+    // Create difficulty badge (only if difficulty is specified)
+    const difficultyBadge = details.difficulty ? `
+      <span class="difficulty-badge difficulty-${details.difficulty.toLowerCase()}">
+        ${details.difficulty}
+      </span>
+    ` : '';
+
     // Create capacity indicator
     const capacityIndicator = `
       <div class="capacity-container ${capacityStatusClass}">
@@ -523,7 +567,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     activityCard.innerHTML = `
-      ${tagHtml}
+      <div class="activity-card-header">
+        ${tagHtml}
+        ${difficultyBadge}
+      </div>
       <h4>${name}</h4>
       <p>${details.description}</p>
       <p class="tooltip">
@@ -572,6 +619,24 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons" data-activity="${name}">
+        <span class="share-label">Share:</span>
+        <button class="share-btn" data-platform="facebook" aria-label="Share on Facebook" title="Share on Facebook">
+          <span class="share-icon">📘</span>
+        </button>
+        <button class="share-btn" data-platform="twitter" aria-label="Share on Twitter" title="Share on Twitter">
+          <span class="share-icon">🐦</span>
+        </button>
+        <button class="share-btn" data-platform="whatsapp" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+          <span class="share-icon">💬</span>
+        </button>
+        <button class="share-btn" data-platform="email" aria-label="Share via Email" title="Share via Email">
+          <span class="share-icon">✉️</span>
+        </button>
+        <button class="share-btn" data-platform="copy" aria-label="Copy link" title="Copy link">
+          <span class="share-icon">🔗</span>
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -589,6 +654,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-btn");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const platform = button.dataset.platform;
+        shareActivity(name, platform, button);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -640,6 +714,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update current time filter and fetch activities
       currentTimeRange = button.dataset.time;
+      fetchActivities();
+    });
+  });
+
+  // Add event listeners for difficulty filter buttons
+  difficultyFilters.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Update active class
+      difficultyFilters.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Update current difficulty filter and fetch activities
+      currentDifficulty = button.dataset.difficulty;
       fetchActivities();
     });
   });
@@ -887,6 +974,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Dark mode toggle event listener
   darkModeToggle.addEventListener("click", toggleDarkMode);
+  // Share functionality
+  function getShareData(activityName, activityDetails) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = `${baseUrl}#${encodeURIComponent(activityName)}`;
+    const formattedSchedule = formatSchedule(activityDetails);
+    
+    return {
+      title: `${activityName} - Mergington High School`,
+      text: `Join ${activityName}! ${activityDetails.description} Schedule: ${formattedSchedule}`,
+      url: shareUrl
+    };
+  }
+
+  function shareActivity(activityName, platform, buttonElement) {
+    const activityDetails = allActivities[activityName];
+    if (!activityDetails) return;
+
+    const shareData = getShareData(activityName, activityDetails);
+    
+    switch(platform) {
+      case 'facebook':
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
+          '_blank',
+          'width=600,height=400'
+        );
+        break;
+        
+      case 'twitter':
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
+          '_blank',
+          'width=600,height=400'
+        );
+        break;
+        
+      case 'whatsapp':
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`,
+          '_blank'
+        );
+        break;
+        
+      case 'email':
+        const emailSubject = encodeURIComponent(shareData.title);
+        const emailBody = encodeURIComponent(`${shareData.text}\n\nLearn more: ${shareData.url}`);
+        window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+        break;
+        
+      case 'copy':
+        copyToClipboard(shareData.url, buttonElement);
+        break;
+    }
+  }
+
+  async function copyToClipboard(text, buttonElement) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showMessage('Link copied to clipboard!', 'success');
+      
+      // Visual feedback on the button
+      if (buttonElement) {
+        const originalIcon = buttonElement.querySelector('.share-icon').textContent;
+        buttonElement.classList.add('copied');
+        buttonElement.querySelector('.share-icon').textContent = '✓';
+        
+        setTimeout(() => {
+          buttonElement.classList.remove('copied');
+          buttonElement.querySelector('.share-icon').textContent = originalIcon;
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Failed to copy:', error);
+      showMessage('Failed to copy link. Please try again.', 'error');
+    }
+  }
 
   // Expose filter functions to window for future UI control
   window.activityFilters = {
