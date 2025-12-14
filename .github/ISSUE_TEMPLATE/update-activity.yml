@@ -159,20 +159,20 @@ body:
            - Validate email addresses if modifying participants
         2. Locate the activity in `src/backend/database.py` by name (case-sensitive match)
         3. Update only the fields that were provided in the issue
-        3. If renaming the activity, update the dictionary key and ensure all references are updated
-        4. If updating schedule:
+        4. If renaming the activity, update the dictionary key and ensure all references are updated
+        5. If updating schedule:
            - Update both the schedule string (human-readable) and schedule_details object
            - Convert 12-hour time to 24-hour format for schedule_details
            - Ensure day names in schedule_details match exactly: ["Monday", "Tuesday", etc.]
-        5. If updating participants:
+        6. If updating participants:
            - Process ADD operations to append new emails
            - Process REMOVE operations to remove specified emails
            - Maintain the participants array structure
-        6. If updating difficulty:
+        7. If updating difficulty:
            - Add the difficulty field if it doesn't exist and a difficulty is specified
            - Remove the difficulty field if "Not Applicable / Remove difficulty" is selected
-        7. Validate changes don't break existing functionality
-        8. Test the updated activity displays correctly in the UI
+        8. Validate changes don't break existing functionality
+        9. Test the updated activity displays correctly in the UI
         
         **Acceptance Criteria:**
         - ✅ Only specified fields are updated
