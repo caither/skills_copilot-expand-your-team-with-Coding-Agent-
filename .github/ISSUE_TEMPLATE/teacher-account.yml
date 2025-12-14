@@ -1,0 +1,161 @@
+name: 👤 Teacher Account Management
+description: Request changes to teacher accounts (add, remove, update credentials)
+title: "[Teacher Account]: "
+labels: ["teacher", "account"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Teacher Account Management
+        
+        Use this form to request changes to teacher accounts in the system.
+        
+        🔒 **Security Note:** Password information will be handled securely.
+
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: What type of account change do you need?
+      description: Select the type of account management request
+      options:
+        - Add new teacher account
+        - Remove teacher account
+        - Update teacher information
+        - Reset teacher password
+    validations:
+      required: true
+
+  - type: input
+    id: teacher-username
+    attributes:
+      label: Teacher Username
+      description: The username for this teacher account
+      placeholder: e.g., "jsmith" (lowercase, no spaces)
+    validations:
+      required: true
+
+  - type: input
+    id: teacher-display-name
+    attributes:
+      label: Teacher Display Name (for new accounts or updates)
+      description: The full name that will be displayed
+      placeholder: e.g., "Ms. Smith", "Mr. Johnson"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: teacher-role
+    attributes:
+      label: Account Role (for new accounts)
+      description: Select the appropriate role for this account
+      options:
+        - teacher
+        - admin
+    validations:
+      required: false
+
+  - type: input
+    id: initial-password
+    attributes:
+      label: Initial Password (for new accounts)
+      description: The temporary password for this account (they should change it after first login)
+      placeholder: Use a secure temporary password
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Request
+      description: Why is this account change needed?
+      placeholder: e.g., "New teacher joining staff", "Teacher leaving school", "Password forgotten"
+    validations:
+      required: true
+
+  - type: input
+    id: activities-managed
+    attributes:
+      label: Activities This Teacher Manages (Optional)
+      description: List activities this teacher is responsible for
+      placeholder: e.g., "Chess Club, Math Team"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details about this account change?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have authorization to request this account change
+          required: true
+        - label: For removals - I confirm all account data should be removed
+          required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Security Considerations:**
+        1. Passwords must be hashed using Argon2 (never store plaintext)
+        2. Validate username format (lowercase, no spaces, alphanumeric)
+        3. Ensure secure password handling in implementation
+        4. Document any security-related decisions
+        
+        **Implementation Requirements:**
+        
+        ### For Adding New Teacher:
+        1. Open `src/backend/database.py`
+        2. Add a new entry to the `initial_teachers` list with:
+           - username: string (lowercase, used as _id)
+           - display_name: string (formatted name)
+           - password: hash_password("provided_password") - use the hash_password function
+           - role: "teacher" or "admin"
+        3. Validate username doesn't already exist
+        4. Test login functionality with new credentials
+        
+        ### For Removing Teacher:
+        1. Open `src/backend/database.py`
+        2. Remove the teacher entry from `initial_teachers` list
+        3. Verify no hardcoded references to this teacher exist
+        4. Test that authentication still works for other teachers
+        
+        ### For Updating Teacher Information:
+        1. Open `src/backend/database.py`
+        2. Locate the teacher in `initial_teachers` list
+        3. Update only the specified fields (display_name, role)
+        4. Do not modify password unless explicitly requested
+        5. Test that changes are reflected correctly
+        
+        ### For Password Reset:
+        1. Open `src/backend/database.py`
+        2. Locate the teacher in `initial_teachers` list
+        3. Update the password field using hash_password("new_password")
+        4. Test that login works with new password
+        
+        **Testing Requirements:**
+        1. Test authentication with the affected account
+        2. Verify teacher can log in (for add/update/reset)
+        3. Verify teacher cannot log in (for removal)
+        4. Test role-based permissions if role was changed
+        5. Ensure other teacher accounts are unaffected
+        
+        **Acceptance Criteria:**
+        - ✅ Account changes are implemented correctly
+        - ✅ Passwords are properly hashed (never plaintext)
+        - ✅ Authentication works as expected
+        - ✅ No security vulnerabilities introduced
+        - ✅ No impact on other teacher accounts
+        - ✅ Changes persist correctly in the database initialization

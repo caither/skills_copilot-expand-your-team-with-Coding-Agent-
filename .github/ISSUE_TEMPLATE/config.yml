@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/caither/skills_copilot-expand-your-team-with-Coding-Agent-/blob/main/docs/how-to-develop.md
+    about: View the development guide and documentation
+  - name: 💬 General Questions
+    url: https://github.com/caither/skills_copilot-expand-your-team-with-Coding-Agent-/discussions
+    about: Ask questions and discuss ideas with the community

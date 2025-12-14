@@ -1,0 +1,157 @@
+name: 🎯 Add New Activity
+description: Request to add a new extracurricular activity to the system
+title: "[New Activity]: "
+labels: ["activity", "enhancement"]
+assignees:
+  - copilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Add a New Activity
+        
+        Use this form to request adding a new extracurricular activity to Mergington High School's activity management system.
+        
+        Please fill out all required fields with as much detail as possible to help our team implement this quickly and accurately.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: What is the name of the activity?
+      placeholder: e.g., "Coding Club", "Volleyball Team", "Music Band"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Activity Description
+      description: Provide a clear and engaging description of what students will do in this activity
+      placeholder: e.g., "Learn programming fundamentals and build software projects together"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Activity Category
+      description: Select the category that best fits this activity
+      options:
+        - Sports
+        - Arts
+        - Academic
+        - Community
+        - Technology
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: days-of-week
+    attributes:
+      label: Days of Week
+      description: Select all days when this activity meets
+      options:
+        - label: Monday
+        - label: Tuesday
+        - label: Wednesday
+        - label: Thursday
+        - label: Friday
+        - label: Saturday
+        - label: Sunday
+    validations:
+      required: true
+
+  - type: input
+    id: start-time
+    attributes:
+      label: Start Time
+      description: What time does the activity start? (Use 12-hour format)
+      placeholder: e.g., "3:15 PM" or "7:00 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: end-time
+    attributes:
+      label: End Time
+      description: What time does the activity end? (Use 12-hour format)
+      placeholder: e.g., "4:45 PM" or "8:00 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: max-participants
+    attributes:
+      label: Maximum Participants
+      description: What is the maximum number of students who can participate?
+      placeholder: e.g., "20"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty Level (Optional)
+      description: Does this activity have a difficulty level?
+      options:
+        - Not Applicable
+        - Beginner
+        - Intermediate
+        - Advanced
+    validations:
+      required: false
+
+  - type: textarea
+    id: initial-participants
+    attributes:
+      label: Initial Participants (Optional)
+      description: List any students already enrolled (one email per line)
+      placeholder: |
+        john@mergington.edu
+        jane@mergington.edu
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details or special requirements for this activity?
+      placeholder: e.g., "Requires specialized equipment", "Need parental consent form"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 For Copilot Agent
+        
+        **Implementation Requirements:**
+        1. Add the new activity to the `initial_activities` dictionary in `src/backend/database.py`
+        2. Use the provided information to create a complete activity entry with:
+           - Activity name as the key
+           - Description field
+           - Schedule field (human-readable format: e.g., "Mondays and Fridays, 3:15 PM - 4:45 PM")
+           - schedule_details field with:
+             - days: array of day names (e.g., ["Monday", "Friday"])
+             - start_time: 24-hour format (e.g., "15:15")
+             - end_time: 24-hour format (e.g., "16:45")
+           - max_participants: integer value
+           - participants: array of email addresses (empty if none provided)
+           - difficulty: string value if applicable (only include if specified)
+        3. Convert 12-hour time format to 24-hour format for schedule_details
+        4. Ensure schedule string matches the format used by existing activities
+        5. Validate that all required fields are present
+        6. Test the application to ensure the new activity displays correctly
+        
+        **Acceptance Criteria:**
+        - ✅ Activity appears in the activities list
+        - ✅ All details are correctly displayed
+        - ✅ Schedule is properly formatted
+        - ✅ Students can be enrolled in the activity
+        - ✅ Category filtering works correctly
+        - ✅ Day and time filters work correctly
