@@ -610,7 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
     shareButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const platform = button.dataset.platform;
-        shareActivity(name, platform);
+        shareActivity(name, platform, button);
       });
     });
 
@@ -895,7 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function shareActivity(activityName, platform) {
+  function shareActivity(activityName, platform, buttonElement) {
     const activityDetails = allActivities[activityName];
     if (!activityDetails) return;
 
@@ -932,28 +932,27 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
         
       case 'copy':
-        copyToClipboard(shareData.url, activityName);
+        copyToClipboard(shareData.url, buttonElement);
         break;
     }
   }
 
-  async function copyToClipboard(text, activityName) {
+  async function copyToClipboard(text, buttonElement) {
     try {
       await navigator.clipboard.writeText(text);
       showMessage('Link copied to clipboard!', 'success');
       
       // Visual feedback on the button
-      const copyButtons = document.querySelectorAll(`[data-activity="${activityName}"] .share-btn[data-platform="copy"]`);
-      copyButtons.forEach(btn => {
-        const originalIcon = btn.querySelector('.share-icon').textContent;
-        btn.classList.add('copied');
-        btn.querySelector('.share-icon').textContent = '✓';
+      if (buttonElement) {
+        const originalIcon = buttonElement.querySelector('.share-icon').textContent;
+        buttonElement.classList.add('copied');
+        buttonElement.querySelector('.share-icon').textContent = '✓';
         
         setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.querySelector('.share-icon').textContent = originalIcon;
+          buttonElement.classList.remove('copied');
+          buttonElement.querySelector('.share-icon').textContent = originalIcon;
         }, 2000);
-      });
+      }
     } catch (error) {
       console.error('Failed to copy:', error);
       showMessage('Failed to copy link. Please try again.', 'error');
