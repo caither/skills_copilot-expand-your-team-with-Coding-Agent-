@@ -41,7 +41,8 @@ initial_activities = {
             "end_time": "16:45"
         },
         "max_participants": 12,
-        "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
+        "participants": ["michael@mergington.edu", "daniel@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Programming Class": {
         "description": "Learn programming fundamentals and build software projects",
@@ -64,7 +65,8 @@ initial_activities = {
             "end_time": "07:45"
         },
         "max_participants": 30,
-        "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+        "participants": ["john@mergington.edu", "olivia@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Soccer Team": {
         "description": "Join the school soccer team and compete in matches",
@@ -75,7 +77,8 @@ initial_activities = {
             "end_time": "17:30"
         },
         "max_participants": 22,
-        "participants": ["liam@mergington.edu", "noah@mergington.edu"]
+        "participants": ["liam@mergington.edu", "noah@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Basketball Team": {
         "description": "Practice and compete in basketball tournaments",
@@ -86,7 +89,8 @@ initial_activities = {
             "end_time": "17:00"
         },
         "max_participants": 15,
-        "participants": ["ava@mergington.edu", "mia@mergington.edu"]
+        "participants": ["ava@mergington.edu", "mia@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Art Club": {
         "description": "Explore various art techniques and create masterpieces",
@@ -97,7 +101,8 @@ initial_activities = {
             "end_time": "17:00"
         },
         "max_participants": 15,
-        "participants": ["amelia@mergington.edu", "harper@mergington.edu"]
+        "participants": ["amelia@mergington.edu", "harper@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Drama Club": {
         "description": "Act, direct, and produce plays and performances",
@@ -108,7 +113,8 @@ initial_activities = {
             "end_time": "17:30"
         },
         "max_participants": 20,
-        "participants": ["ella@mergington.edu", "scarlett@mergington.edu"]
+        "participants": ["ella@mergington.edu", "scarlett@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Math Club": {
         "description": "Solve challenging problems and prepare for math competitions",
@@ -131,7 +137,8 @@ initial_activities = {
             "end_time": "17:30"
         },
         "max_participants": 12,
-        "participants": ["charlotte@mergington.edu", "amelia@mergington.edu"]
+        "participants": ["charlotte@mergington.edu", "amelia@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Weekend Robotics Workshop": {
         "description": "Build and program robots in our state-of-the-art workshop",
@@ -178,7 +185,8 @@ initial_activities = {
             "end_time": "20:00"
         },
         "max_participants": 15,
-        "participants": []
+        "participants": [],
+        "difficulty": "Beginner"
     }
 }
 
