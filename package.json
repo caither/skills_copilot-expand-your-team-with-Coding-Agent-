@@ -1,0 +1,21 @@
+{
+  "name": "mergington-high-school-activities",
+  "version": "1.0.0",
+  "description": "Extracurricular Activities Management System for Mergington High School",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "activities",
+    "school",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
