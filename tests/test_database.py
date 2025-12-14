@@ -263,6 +263,18 @@ class TestInitialData:
             difficulty = initial_activities[name]["difficulty"]
             assert difficulty in valid_difficulties, f"{name} has invalid difficulty: {difficulty}"
 
+    def test_all_activities_have_difficulty(self):
+        """測試所有活動都有 difficulty 欄位"""
+        valid_difficulties = ["Beginner", "Intermediate", "Advanced"]
+        
+        for name, details in initial_activities.items():
+            # 驗證每個活動都有 difficulty 欄位
+            assert "difficulty" in details, f"{name} is missing difficulty field"
+            
+            # 驗證 difficulty 的值是有效的
+            difficulty = details["difficulty"]
+            assert difficulty in valid_difficulties, f"{name} has invalid difficulty: {difficulty}"
+
     def test_initial_teachers_structure(self):
         """測試 initial_teachers 的資料結構"""
         assert isinstance(initial_teachers, list)
