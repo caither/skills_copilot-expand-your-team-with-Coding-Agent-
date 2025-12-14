@@ -18,7 +18,6 @@ A comprehensive web application that enables teachers to manage and students to 
 ### Student Registration (Teacher-Only)
 - **Register Students**: Teachers can enroll students in activities using their school email
 - **Unregister Students**: Teachers can remove students from activities
-- **Capacity Management**: Automatic enforcement of maximum participant limits
 - **Duplicate Prevention**: System prevents students from signing up for the same activity twice
 
 ### Advanced Filtering & Search
