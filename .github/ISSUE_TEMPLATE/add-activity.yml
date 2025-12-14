@@ -85,7 +85,7 @@ body:
     id: max-participants
     attributes:
       label: Maximum Participants
-      description: What is the maximum number of students who can participate?
+      description: What is the maximum number of students who can participate? (Must be a positive number)
       placeholder: e.g., "20"
     validations:
       required: true
@@ -131,8 +131,12 @@ body:
         ## 🤖 For Copilot Agent
         
         **Implementation Requirements:**
-        1. Add the new activity to the `initial_activities` dictionary in `src/backend/database.py`
-        2. Use the provided information to create a complete activity entry with:
+        1. **Validate input data first:**
+           - Ensure max_participants is a positive integer (convert string to int)
+           - Verify activity name doesn't already exist
+           - Validate email addresses in initial participants list
+        2. Add the new activity to the `initial_activities` dictionary in `src/backend/database.py`
+        3. Use the provided information to create a complete activity entry with:
            - Activity name as the key
            - Description field
            - Schedule field (human-readable format: e.g., "Mondays and Fridays, 3:15 PM - 4:45 PM")
@@ -140,8 +144,8 @@ body:
              - days: array of day names (e.g., ["Monday", "Friday"])
              - start_time: 24-hour format (e.g., "15:15")
              - end_time: 24-hour format (e.g., "16:45")
-           - max_participants: integer value
-           - participants: array of email addresses (empty if none provided)
+           - max_participants: integer value (validate it's a positive number)
+           - participants: array of email addresses (empty if none provided, validate format)
            - difficulty: string value if applicable (only include if specified)
         3. Convert 12-hour time format to 24-hour format for schedule_details
         4. Ensure schedule string matches the format used by existing activities

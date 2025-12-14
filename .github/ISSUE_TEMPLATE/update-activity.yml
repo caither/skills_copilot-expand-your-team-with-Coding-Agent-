@@ -96,7 +96,7 @@ body:
     id: new-max-participants
     attributes:
       label: New Maximum Participants (if changing capacity)
-      description: What should the new maximum number of participants be?
+      description: What should the new maximum number of participants be? (Must be a positive number)
       placeholder: e.g., "25"
     validations:
       required: false
@@ -153,8 +153,12 @@ body:
         ## 🤖 For Copilot Agent
         
         **Implementation Requirements:**
-        1. Locate the activity in `src/backend/database.py` by name (case-sensitive match)
-        2. Update only the fields that were provided in the issue
+        1. **Validate input data first:**
+           - If max_participants provided, ensure it's a positive integer
+           - Verify the activity name exists before attempting update
+           - Validate email addresses if modifying participants
+        2. Locate the activity in `src/backend/database.py` by name (case-sensitive match)
+        3. Update only the fields that were provided in the issue
         3. If renaming the activity, update the dictionary key and ensure all references are updated
         4. If updating schedule:
            - Update both the schedule string (human-readable) and schedule_details object

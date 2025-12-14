@@ -31,7 +31,7 @@ body:
     id: teacher-username
     attributes:
       label: Teacher Username
-      description: The username for this teacher account
+      description: The username for this teacher account (lowercase letters and numbers only, no spaces)
       placeholder: e.g., "jsmith" (lowercase, no spaces)
     validations:
       required: true
@@ -60,8 +60,8 @@ body:
     id: initial-password
     attributes:
       label: Initial Password (for new accounts)
-      description: The temporary password for this account (they should change it after first login)
-      placeholder: Use a secure temporary password
+      description: The temporary password for this account - must be at least 8 characters with a mix of letters and numbers (they should change it after first login)
+      placeholder: Use a secure temporary password (min 8 characters)
     validations:
       required: false
 
@@ -110,9 +110,10 @@ body:
         
         **Security Considerations:**
         1. Passwords must be hashed using Argon2 (never store plaintext)
-        2. Validate username format (lowercase, no spaces, alphanumeric)
-        3. Ensure secure password handling in implementation
-        4. Document any security-related decisions
+        2. **Validate username format:** Must be lowercase, alphanumeric only (no spaces or special characters)
+        3. **Validate password strength:** For new accounts, ensure password is at least 8 characters with letters and numbers
+        4. Ensure secure password handling in implementation
+        5. Document any security-related decisions
         
         **Implementation Requirements:**
         
